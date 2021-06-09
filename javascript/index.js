@@ -1,8 +1,8 @@
 const chronometer = new Chronometer();
 
 // get the buttons:
-const btnLeftElement = document.getElementById('btnLeft');
-const btnRightElement = document.getElementById('btnRight');
+const btnLeftElement = document.getElementById('btnLeft'); //start(verde)/stop(vermelho)
+const btnRightElement = document.getElementById('btnRight'); // split(azul)/reset(cinza)
 
 // get the DOM elements that will serve us to display the time:
 const minDecElement = document.getElementById('minDec');
@@ -14,15 +14,21 @@ const milUniElement = document.getElementById('milUni');
 const splitsElement = document.getElementById('splits');
 
 function printTime() {
-  // ... your code goes here
+  //printMilliseconds()
+  const sec = printSeconds()
+  const min = printMinutes()
 }
 
 function printMinutes() {
-  // ... your code goes here
+  const printMin = chronometer.computeTwoDigitNumber(chronometer.getMinutes())
+  minUniElement.innerText = printMin[0]
+  minDecElement.innerText = printMin[1]
 }
 
 function printSeconds() {
-  // ... your code goes here
+  const printSec = chronometer.computeTwoDigitNumber(chronometer.getSeconds())
+  secUniElement.innerText = printSec[0]
+  secDecElement.innerText = printSec[1]
 }
 
 // ==> BONUS
@@ -31,35 +37,58 @@ function printMilliseconds() {
 }
 
 function printSplit() {
-  // ... your code goes here
+  const printSpli = chronometer.split()
+// Adicionar o novo "split" na lista de todos os "Splits"  
+  splitsElement.innerText = printSpl
+// DÚVIDA criar nova "ol" cada vez que apertar o botão SPLIT? (pq no html só tem 1 ol) => coloquei proposta na função setSplitBtn 
 }
 
 function clearSplits() {
-  // ... your code goes here
+  chronometer.reset()
 }
 
 function setStopBtn() {
-  // ... your code goes here
+  btnLeftElement.innerText = "STOP";
+  btnLeftElement.className = "btn stop";
+  chronometer.stop()
 }
 
 function setSplitBtn() {
-  // ... your code goes here
+  btnRightElement.innerText = "SPLIT";
+  btnRightElement.className = "btn split";
+  //const ol = document.createElement("ol"); // DÚVIDA criar nova linha "ol"? criar index? 
 }
 
 function setStartBtn() {
-  // ... your code goes here
+  btnLeftElement.innerText = "START";
+  btnLeftElement.className = "btn start";
+  chronometer.start() // => DÚVIDA - correlacionar "chronometer.curentTime" com printTime()?
+  //for(let i = 0; i < 10; i++ ){ // i máx 59min59seg = 3599 segundos 
+    //printTime(chronometer.currentTime[i]) 
+  //}
+
 }
 
 function setResetBtn() {
-  // ... your code goes here
+  btnRightElement.innerText = "RESET";
+  btnRightElement.className = "btn reset"
 }
 
 // Start/Stop Button
 btnLeftElement.addEventListener('click', () => {
-  // ... your code goes here
+  if (btnLeftElement.innerHTML === "START") {
+    setStopBtn()
+    setSplitBtn() // Muda RESET p SPLIT assim que clicamos no START. 
+  }
+  else{ // btnLeftElement.innerHTML === "STOP"
+    setStartBtn()
+    setResetBtn() 
+  }
 });
 
 // Reset/Split Button
 btnRightElement.addEventListener('click', () => {
-  // ... your code goes here
+  if (btnRightElement.innerHTML === "SPLIT") {
+    setSplitBtn()
+  }// Deletei o setResetBtn daqui, pq ele só muda, qdo apertamos o btn left STOP. 
 });
